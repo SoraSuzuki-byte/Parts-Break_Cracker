@@ -46,6 +46,10 @@ void PlayScene::Initialize()
     m_boss = std::make_unique<OctopusBoss>();
 }
 
+
+
+
+
 /// <summary>
 /// 更新
 /// </summary>
@@ -53,12 +57,10 @@ void PlayScene::Initialize()
 void PlayScene::Update(SceneManager& sceneManager, float elapsedTime, int keyCondition, int keyTrigger)
 {
     // スペースキーが押されたら
-    if (keyTrigger & PAD_INPUT_10)
-    {
+    if (keyTrigger & PAD_INPUT_10) {
         // シーンを変更する
         sceneManager.RequestNextSceneID(SceneID::ResultSceneID);
     }
-
 
     // Playerの攻撃が触手に当たるか
     if (m_player->CanDealAttackDamage()) // 攻撃判定を出せるなら
@@ -71,25 +73,34 @@ void PlayScene::Update(SceneManager& sceneManager, float elapsedTime, int keyCon
             m_player->GetAttackId());
     }
 
-
     // 触手とPlayerの体の判定（押し戻しと、触手が攻撃中ならPlayerにダメージを与える）
     Vector2D pushOut;
     bool dealsDamage = false;
-    if (m_boss->IsCollidingWithCircle(m_player->GetBodyCenter(), m_player->GetBodyRadius(), pushOut, dealsDamage))
+
+    if (m_boss->IsCollidingWithCircle(
+        m_player->GetBodyCenter(),
+        m_player->GetBodyRadius(),
+        pushOut,
+        dealsDamage))
     {
         // 触れていれば、攻撃中でなくても押し戻す
         m_player->ApplyPushOut(pushOut);
 
         // ダメージは、攻撃中のときだけ
-        if (m_boss->IsAttacking())
+        if (dealsDamage)
         {
             m_player->TakeDamage(1);
         }
     }
 
 
-
+    // Player更新
     m_player->Update(elapsedTime, keyCondition, keyTrigger);
+
+    // プレイヤの最新位置をボスに渡す
+    m_boss->SetTargetPosition(m_player->GetBodyCenter());
+
+    // Boss更新
     m_boss->Update(elapsedTime);
 }
 
@@ -106,6 +117,10 @@ void PlayScene::Render()
     m_player->Render();
     m_boss->RenderHpBar();
 }
+
+
+
+
 
 /// <summary>
 /// 終了処理

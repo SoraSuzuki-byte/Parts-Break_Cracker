@@ -33,6 +33,16 @@ public:
 	// プレイヤーの攻撃を受ける（当たった部位の個数を返す）
 	virtual int TakeDamageByCircle(const Vector2D& center, float radius, int damage, int attackId) = 0;
 
+	// ターゲット（Player）の位置をセット
+	void SetTargetPosition(const Vector2D& pos) {
+		m_targetPos = pos;
+	}
+
+	// ターゲット（Player）の位置を取得
+	const Vector2D& GetTargetPosition() const { 
+		return m_targetPos; 
+	}
+
 #pragma region Boss全員の共通の HP
 	int GetHp() const { return m_hp; }
 	int  GetMaxHp() const { return m_maxHp; }
@@ -52,4 +62,5 @@ protected:
 private:
 	int m_maxHp;
 	int m_hp;
+	Vector2D m_targetPos{};
 };

@@ -11,12 +11,14 @@
 #include "pch.h"
 #include "OctopusBoss.h"
 #include "Tentacle.h"
+#include "Patterns/SwayPattern.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 OctopusBoss::OctopusBoss()
 	: Boss{ MAX_HP }
+	, m_pattern { std::make_unique<SwayPattern>() }
 {
 	// 触手を1本生成して登録
 	//auto tentacle = std::make_unique<Tentacle>(/* 付け根の座標など */);
@@ -49,7 +51,7 @@ OctopusBoss::~OctopusBoss() = default;
 /// <param name="elapsedTime">経過時間</param>
 void OctopusBoss::Update(float elapsedTime)
 {
-	// 行動段階の更新
+	// 行動段階を更新
 	UpdateStage(elapsedTime);
 
 	for (auto& tentacle : m_tentacles)
@@ -96,12 +98,26 @@ bool OctopusBoss::IsCollidingWithCircle(const Vector2D& center, float radius, Ve
 	Vector2D maxPushOut{ 0.0f, 0.0f };
 	float maxLenSq = 0.0f;
 
+	// 最初は「ダメージなし」にしておき、危険な触手に触れたときだけ true にする
+	dealsDamage = false;
+
 	for (const auto& tentacle : m_tentacles)
 	{
 		Vector2D tempPushOut{ 0.0f, 0.0f };
-		if (tentacle->IsCollidingWithCircle(center, radius, tempPushOut, dealsDamage))
+
+		// 触手ごとの結果を一時変数で受ける（直接渡すと、前の触手の true が上書きされるため）
+		bool tempDealsDamage{ false };
+
+		if (tentacle->IsCollidingWithCircle(center, radius, tempPushOut, tempDealsDamage))
 		{
 			isHit = true;
+
+			// 1本でも攻撃中の触手に触れていたら true にする（false は代入しない）
+			if (tempDealsDamage)
+			{
+				dealsDamage = true;
+			}
+
 			// 一番大きくめり込んだ押し出し量を採用する
 			const float lenSq = tempPushOut.x * tempPushOut.x + tempPushOut.y * tempPushOut.y;
 			if (lenSq > maxLenSq)
@@ -118,7 +134,6 @@ bool OctopusBoss::IsCollidingWithCircle(const Vector2D& center, float radius, Ve
 	}
 	return isHit;
 }
-
 
 
 
@@ -175,42 +190,73 @@ void OctopusBoss::OnSegmentBroken()
 /// <param name="elapsedTime">経過時間</param>
 void OctopusBoss::UpdateStage(float elapsedTime)
 {
-	m_stageTimer -= elapsedTime;
-	if (m_stageTimer <= 0.0f)
-	{
-		switch (m_stage)
+	// 攻撃状態なら
+	if (m_stage == Stage::Attack) {		
+		if (m_pattern != nullptr)// 空じゃなかったら
 		{
-			case Stage::Enter:
+			// パターンの更新
+			m_pattern->Update(elapsedTime, m_tentacles, GetTargetPosition());
+
+			// パターンが終わったら
+			if (m_pattern->IsFinished())
 			{
-				m_stage = Stage::Attack;
-				m_stageTimer = ATTACK_TIME;  
-				for (auto& tentacle : m_tentacles) { tentacle->SetAttacking(true); }
-				break;
-			}
-			case Stage::Attack:
-			{
+				m_pattern->End(m_tentacles);
 				m_stage = Stage::Chance;
 				m_stageTimer = CHANCE_TIME;
-				for (auto& tentacle : m_tentacles) { tentacle->SetAttacking(false); }
-				break;
 			}
-			case Stage::Chance:
-			{
-				m_stage = Stage::Retreat;
-				m_stageTimer = RETREAT_TIME;
-				break;
-			}
-			case Stage::Retreat:
-			{
-				// 画面の外にいるうちに、壊れた節を元に戻す
-				for (auto& tentacle : m_tentacles) { tentacle->Restore(); }
-				m_stage = Stage::Enter; m_stageTimer = ENTER_TIME;
-				break;
-			}
-			//default :
-			//{
+		}
+		else
+		{
+			// パターンが空のときの保険としてStageチャンスへ進める
+			m_stage = Stage::Chance;
+			m_stageTimer = CHANCE_TIME;
+		}
+	}
+	else
+	{
 
-			//}
+		// 攻撃状態じゃないなら、タイマーを減らす
+		m_stageTimer -= elapsedTime;
+
+		// タイマーが0になったら切り替え（攻撃ステージはこのタイマーは使わない）
+		if (m_stageTimer <= 0.0f)
+		{
+			switch (m_stage)
+			{
+				case Stage::Enter:
+				{
+					m_stage = Stage::Attack;
+					if (m_pattern != nullptr) // 空じゃなかったら
+					{
+						m_pattern->Start(m_tentacles);
+					}
+					break;
+				}
+				case Stage::Chance:
+				{
+					m_stage = Stage::Retreat;
+					m_stageTimer = RETREAT_TIME;
+					break;
+				}
+				case Stage::Retreat:
+				{
+					// 画面の外にいるうちに、壊れた節を元に戻す
+					for (auto& tentacle : m_tentacles)
+					{
+						if (tentacle != nullptr) // 空じゃなかったら
+						{
+							tentacle->Restore();
+						}
+					}
+					m_stage = Stage::Enter;
+					m_stageTimer = ENTER_TIME;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
 		}
 	}
 

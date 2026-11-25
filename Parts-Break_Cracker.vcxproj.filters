@@ -51,6 +51,9 @@
     <Filter Include="Game\Boss\OctopusBoss">
       <UniqueIdentifier>{2c66ab3d-336e-4b92-9edd-3c6faeb41543}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Boss\OctopusBoss\Patterns">
+      <UniqueIdentifier>{5965a22f-8f51-4954-b58c-a4983d14a72c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <!-- ファイル -->
   <ItemGroup>
@@ -168,9 +171,13 @@
     <ClCompile Include="Game\Boss\OctopusBoss\Tentacle.cpp">
       <Filter>Game\Boss\OctopusBoss</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Boss\OctopusBoss\Patterns\SwayPattern.cpp">
+      <Filter>Game\Boss\OctopusBoss\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Scenes\IScene.h">
@@ -280,6 +287,12 @@
     </ClInclude>
     <ClInclude Include="Game\Boss\OctopusBoss\OctopusBoss.h">
       <Filter>Game\Boss\OctopusBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Boss\OctopusBoss\Patterns\AttackPattern.h">
+      <Filter>Game\Boss\OctopusBoss\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Boss\OctopusBoss\Patterns\SwayPattern.h">
+      <Filter>Game\Boss\OctopusBoss\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

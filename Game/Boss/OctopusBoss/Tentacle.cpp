@@ -213,15 +213,15 @@ bool Tentacle::IsCollidingWithCircle(const Vector2D& center, float radius, Vecto
 	dealsDamage = false;
 	pushOut.x = 0.0f;
 	pushOut.y = 0.0f;
-	// そもそも、触手全体を囲む 大きな円と重なっていなければ早期リターン
+#pragma region そもそも 触手全体を囲む 大きな円と重なっていなければ早期リターン
 	const float dx = center.x - m_root.x;
 	const float dy = center.y - m_root.y;
 	const float reach = CalcReach() + radius;
 	if ((dx * dx) + (dy * dy) > (reach * reach)) return false;
+#pragma endregion
 
 #pragma region 各部位を調べて最も深くめり込んでいる押し出しを 採用する
 	bool isHit = false;
-
 	for (int i = 0; i < m_segmentCount; i++)
 	{
 		Vector2D push;
@@ -283,6 +283,8 @@ void Tentacle::Restore()
 /// <summary>
 /// 根元の初期位置を設定
 /// </summary>
+	/// <param name="homeRoot">初期位置</param>
+
 void Tentacle::SetHomeRoot(const Vector2D& homeRoot)
 {
 	m_homeRoot = homeRoot;
@@ -296,6 +298,7 @@ void Tentacle::SetHomeRoot(const Vector2D& homeRoot)
 /// <summary>
 /// 向きを設定
 /// </summary>
+/// <param name="angle">付け根の向き（ラジアン）</param>
 void Tentacle::SetRootAngle(float angle)
 {
 	m_rootAngle = angle;
@@ -321,7 +324,7 @@ void Tentacle::SetLengthScale(float scale)
 /// <summary>
 /// アクティブにする
 /// </summary>
-/// <param name="isActive"></param>
+/// <param name="isActive">有効にする場合は true、無効にする場合は false</param>
 void Tentacle::SetActive(bool isActive)
 {
 	m_isActive = isActive;

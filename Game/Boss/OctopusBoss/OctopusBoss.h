@@ -14,13 +14,13 @@
 #include <vector>
 #include <memory>
 class Tentacle;
+class AttackPattern;
 
 class OctopusBoss : public Boss, public ITentacleObserver
 {
 private:
 	// 各段階の時間（秒）
 	static constexpr float ENTER_TIME = 1.0f;		// 登場
-	static constexpr float ATTACK_TIME = 2.0f;		// 攻撃
 	static constexpr float CHANCE_TIME = 3.5f;		// チャンス
 	static constexpr float RETREAT_TIME = 1.0f;		// 退場
 
@@ -51,7 +51,11 @@ private:
 	// 持っている触手のリスト
 	std::vector<std::unique_ptr<Tentacle>> m_tentacles;
 
+	// 攻撃パターンを保持するインスタンス
+	std::unique_ptr<AttackPattern> m_pattern;
+
 public:
+#pragma region コンストラクタ・デストラクタ・コピーとムーブの禁止
 	// コンストラクタ / デストラクタ
 	OctopusBoss();
 	~OctopusBoss() override;
@@ -60,7 +64,7 @@ public:
 	OctopusBoss& operator=(const OctopusBoss&) = delete;
 	OctopusBoss(OctopusBoss&&) = delete;
 	OctopusBoss& operator=(OctopusBoss&&) = delete;
-
+#pragma endregion
 
 	// Boss からのオーバーライド
 	void Update(float elapsedTime) override;
@@ -69,7 +73,8 @@ public:
 	bool IsAttacking() const override;
 	int TakeDamageByCircle(const Vector2D& center, float radius, int damage, int attackId) override;
 
-	// ITentacleObserver からのオーバーライド（部位が1つ壊れたときに呼ばれる）
+	// ITentacleObserver からのオーバーライド（
+	// 部位が1つ壊れたときに呼ばれる）
 	void OnSegmentBroken() override;
 
 #pragma region 内部実装

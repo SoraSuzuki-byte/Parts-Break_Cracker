@@ -143,6 +143,7 @@
     <ClCompile Include="Game\Boss\Boss.cpp" />
     <ClCompile Include="Game\Boss\BossPart.cpp" />
     <ClCompile Include="Game\Boss\OctopusBoss\OctopusBoss.cpp" />
+    <ClCompile Include="Game\Boss\OctopusBoss\Patterns\SwayPattern.cpp" />
     <ClCompile Include="Game\Boss\OctopusBoss\Tentacle.cpp" />
     <ClCompile Include="Game\Boss\States\PartBrokenState.cpp" />
     <ClCompile Include="Game\Boss\States\PartDamagedState.cpp" />
@@ -171,6 +172,8 @@
     <ClInclude Include="Game\Boss\IBossPartObserver.h" />
     <ClInclude Include="Game\Boss\OctopusBoss\ITentacleObserver.h" />
     <ClInclude Include="Game\Boss\OctopusBoss\OctopusBoss.h" />
+    <ClInclude Include="Game\Boss\OctopusBoss\Patterns\AttackPattern.h" />
+    <ClInclude Include="Game\Boss\OctopusBoss\Patterns\SwayPattern.h" />
     <ClInclude Include="Game\Boss\OctopusBoss\Tentacle.h" />
     <ClInclude Include="Game\Boss\States\BossPartState.h" />
     <ClInclude Include="Game\Boss\States\PartBrokenState.h" />
@@ -219,6 +222,7 @@
     <ResourceCompile Include="EmbeddedResources\Resource.rc" />
     <Image Include="EmbeddedResources\Icon\Game.ico" />
     <!-- リソースファイル -->
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Resources\Sounds\SE00.ogg" />
     <Image Include="Resources\Textures\TridentLogo.png" />

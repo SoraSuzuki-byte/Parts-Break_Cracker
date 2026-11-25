@@ -149,12 +149,14 @@ public:
 	/// <summary>
 	/// 根元の初期位置を設定
 	/// </summary>
+	/// <param name="homeRoot">初期位置</param>
 	void SetHomeRoot(const Vector2D& homeRoot);
 
 
 	/// <summary>
 	/// 向きを設定
 	/// </summary>
+	/// <param name="angle">付け根の向き（ラジアン）</param>
 	void SetRootAngle(float angle);
 
 
@@ -167,6 +169,7 @@ public:
 	/// <summary>
 	/// アクティブにする
 	/// </summary>
+	/// <param name="isActive">有効にする場合は true、無効にする場合は false</param>
 	void SetActive(bool isActive);
 
 

@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Game" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAQAAAAQACAAACAAAEAAiAgAAAABAAAAgAAAA=</HashCode>
+      <FileName>Game\Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Screen" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAIAgAAABAAAIAAAAQAAAAgAAAAAABAAAA=</HashCode>
+      <FileName>Game\Screen.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAwAEAAAAAAAAQABAAAAAAAAAAAAAAEAAAAgIBAAAAA=</HashCode>
+      <FileName>Game\Common\InputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceManager" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAGAAAAAwAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>Game\Common\ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IScene" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQAAAAQAAAAAAAAAAAAAAgAAQABAAAAAAAAA=</HashCode>
+      <FileName>Game\Scenes\IScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayScene" Collapsed="true">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYACAAAAAAAAQAAAAAEAAAQCAAAgAAQABAAAAAAAAA=</HashCode>
+      <FileName>Game\Scenes\PlayScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResultScene" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAEAAAAQAAAAAAAAAAAAAAgAAQABAAAAAAAgA=</HashCode>
+      <FileName>Game\Scenes\ResultScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACABAAACAAUgAAAAAAAAAAAAAgAgQABAAAAAAAgQ=</HashCode>
+      <FileName>Game\Scenes\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TitleScene" Collapsed="true">
+    <Position X="2.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAAAAAAAQAAAAAAAIAAAAAAgIAQABAAAAAAAAA=</HashCode>
+      <FileName>Game\Scenes\TitleScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iCQhggQHACgJBSAAMCQEAgBAwAZIKkghYBEgiQABIRg=</HashCode>
+      <FileName>Game\Player\Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AirState" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\Player\States\AirState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackState" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAAAAAAAAAAAAAAAAAAEAAAAIAAAEAAABAQ=</HashCode>
+      <FileName>Game\Player\States\AttackState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FallState" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABAA=</HashCode>
+      <FileName>Game\Player\States\FallState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IdleState" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAABAA=</HashCode>
+      <FileName>Game\Player\States\IdleState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JumpState" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAABAA=</HashCode>
+      <FileName>Game\Player\States\JumpState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RunState" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAABAA=</HashCode>
+      <FileName>Game\Player\States\RunState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerState" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgAAABAAAAAAAAAAAAAAAEAAAAIAAAEAAABAA=</HashCode>
+      <FileName>Game\Player\States\PlayerState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boss" Collapsed="true">
+    <Position X="8.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEABAAAAgYAQAAQAAAAAAAAABAADAACRAABAAAgAA=</HashCode>
+      <FileName>Game\Boss\Boss.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BossPart" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEBAAESAJBYIAAAEwAAAAJABAQgQACBg7jAwAAAA=</HashCode>
+      <FileName>Game\Boss\BossPart.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IBossPartObserver" Collapsed="true">
+    <Position X="8.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Game\Boss\IBossPartObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PartNormalState" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAABAA=</HashCode>
+      <FileName>Game\Boss\States\PartNormalState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BossPartState" Collapsed="true">
+    <Position X="2.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAIAAAGAAABIA=</HashCode>
+      <FileName>Game\Boss\States\BossPartState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PartBrokenState" Collapsed="true">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAGAAABAA=</HashCode>
+      <FileName>Game\Boss\States\PartBrokenState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PartDamagedState" Collapsed="true">
+    <Position X="5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAABAA=</HashCode>
+      <FileName>Game\Boss\States\PartDamagedState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tentacle" Collapsed="true">
+    <Position X="8.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBQAoIRAACgBAAgAECBCAAAAAAFCQCACFBAhiIoJQIA=</HashCode>
+      <FileName>Game\Boss\OctopusBoss\Tentacle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITentacleObserver" Collapsed="true">
+    <Position X="11.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Game\Boss\OctopusBoss\ITentacleObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OctopusBoss" Collapsed="true">
+    <Position X="8.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAUAAAAgBEAAAAAAABABAAAFQCCAgABAgAAAoEAA=</HashCode>
+      <FileName>Game\Boss\OctopusBoss\OctopusBoss.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameLib::FrameTimer" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAgAAgAEABIABEEAAAABAAAigIAAAABARAAAAAAA=</HashCode>
+      <FileName>Library\GameLibTime.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AttackPattern" Collapsed="true">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAAAAAAAAAAAgAAAAAAAABBAAAAAAACA=</HashCode>
+      <FileName>Game\Boss\OctopusBoss\Patterns\AttackPattern.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SwayPattern" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAQ=</HashCode>
+      <FileName>Game\Boss\OctopusBoss\Patterns\SwayPattern.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="GameContext" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAACAAAAAAAAEAAAAAAgAAgAAAA=</HashCode>
+      <FileName>Game\Common\GameContext.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vector2D" Collapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Library\GameMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GraphicsContext" Collapsed="true">
+    <Position X="17.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACAAAAAABAAAIAAEAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Library\MyLib\MyLibDrawGraph.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="sora::GraphicsEntry" Collapsed="true">
+    <Position X="13.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Game\Common\ResourceTable.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="mylib::BoundingCircle" Collapsed="true">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Library\MyLib\MyLibCircleCollision.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="SceneID" Collapsed="true">
+    <Position X="17.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAACAAABAAAAAAAAAACAA=</HashCode>
+      <FileName>Game\Scenes\SceneID.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="sora::GraphicsID" Collapsed="true">
+    <Position X="15.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Game\Common\ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="sora::BgmID" Collapsed="true">
+    <Position X="13.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Game\Common\ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="sora::SeID" Collapsed="true">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Game\Common\ResourceIdentifiers.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="mylib::StringAlign" Collapsed="true">
+    <Position X="15.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAIAAA=</HashCode>
+      <FileName>Library\MyLib\MyLibDrawString.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>
