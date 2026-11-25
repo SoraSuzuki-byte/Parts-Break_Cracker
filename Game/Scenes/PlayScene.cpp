@@ -74,7 +74,8 @@ void PlayScene::Update(SceneManager& sceneManager, float elapsedTime, int keyCon
 
     // 触手とPlayerの体の判定（押し戻しと、触手が攻撃中ならPlayerにダメージを与える）
     Vector2D pushOut;
-    if (m_boss->IsCollidingWithCircle(m_player->GetBodyCenter(), m_player->GetBodyRadius(), pushOut))
+    bool dealsDamage = false;
+    if (m_boss->IsCollidingWithCircle(m_player->GetBodyCenter(), m_player->GetBodyRadius(), pushOut, dealsDamage))
     {
         // 触れていれば、攻撃中でなくても押し戻す
         m_player->ApplyPushOut(pushOut);

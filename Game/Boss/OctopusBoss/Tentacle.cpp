@@ -8,26 +8,30 @@
 #include "Tentacle.h"
 #include "ITentacleObserver.h"
 
+#include <cmath>
+#include <algorithm>
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
 /// <param name="root">付け根の位置</param> 
-Tentacle::Tentacle(const Vector2D& root)
+Tentacle::Tentacle(const Vector2D& root, int segmentCount)
 	: m_homeRoot { root }
 	, m_root { root }
+	, m_segmentCount{ std::max(0, segmentCount) }
 {
 	// 先に確保（途中で vector が再確保されてしまわないように）
-	m_parts.reserve(SEGMENT_COUNT);
+	m_parts.reserve(m_segmentCount);
 	
 
-	for (int i = 0; i < SEGMENT_COUNT; i++)
+	for (int i = 0; i < m_segmentCount; i++)
 	{
 		// 付け根から右へ、一定の間隔で並べる
 		Vector2D pos = m_root;
 		pos.x += SEGMENT_LENGTH * i;
 
 		// 根元から先端に向けて、だんだん細くする
-		const float radius = BASE_RADIUS * (1.0f - 0.5f * static_cast<float>(i) / SEGMENT_COUNT);
+		const float radius = BASE_RADIUS * (1.0f - 0.5f * static_cast<float>(i) / m_segmentCount);
 
 		// その場で部位を作る（BossPartはコピーできないため、emplace_back）
 		m_parts.emplace_back(std::make_unique<BossPart>(pos, radius, PART_MAX_HP));
@@ -53,6 +57,8 @@ Tentacle::~Tentacle()
 /// <param name="elapsedTime">前フレームからの経過時間（秒）</param>
 void Tentacle::Update(float elapsedTime)
 {
+	if (!m_isActive) return;
+
 	// 経過時間を蓄積
 	m_time += elapsedTime;
 
@@ -60,10 +66,10 @@ void Tentacle::Update(float elapsedTime)
 	Vector2D currentPos = m_root;
 
 	// 向きの角度は初期値
-	float currentAngle = 0.0f;
+	float currentAngle = m_rootAngle;
 
 	// 部位ごとに計算して 位置を更新する
-	for (int i = 0; i < SEGMENT_COUNT; i++)
+	for (int i = 0; i < m_segmentCount; i++)
 	{
 		// いまの位置を、この部位に入れる
 		m_parts[i]->SetPosition(currentPos);// 最初にこの行を実行することで、0番目の部位（i = 0）の座標が確実に付け根の位置（m_root）に固定されます。
@@ -72,8 +78,8 @@ void Tentacle::Update(float elapsedTime)
 		currentAngle += BEND + AMPLITUDE * std::sin(m_time * SPEED - i * PHASE);
 
 		// 現在の部位から見た『次の部位が伸びている方向（進行方向）』に、1部位ぶん進む
-		currentPos.x += std::cos(currentAngle) * SEGMENT_LENGTH;
-		currentPos.y += std::sin(currentAngle) * SEGMENT_LENGTH;
+		currentPos.x += std::cos(currentAngle) * SEGMENT_LENGTH * m_lengthScale;
+		currentPos.y += std::sin(currentAngle) * SEGMENT_LENGTH * m_lengthScale;
 	}
 
 	// 崩壊を始める
@@ -89,8 +95,10 @@ void Tentacle::Update(float elapsedTime)
 /// </summary>
 void Tentacle::Render() const
 {
+	if (!m_isActive) return;
+
 // 先端から描くと、根元の円が手前に重なる
-	for (int i = SEGMENT_COUNT - 1; i >= 0; i--)
+	for (int i = m_segmentCount - 1; i >= 0; i--)
 	{
 		m_parts[i]->Render();
 	}
@@ -126,9 +134,10 @@ void Tentacle::Render() const
 /// <returns></returns>
 int Tentacle::TakeDamageByCircle(const Vector2D& center, float radius, int damage, int attackId)
 {
-	int hitCount = 0;
+	if (!m_isActive) return 0;
 
-	for (int i = 0; i < SEGMENT_COUNT; i++)
+	int hitCount = 0;
+	for (int i = 0; i < m_segmentCount; i++)
 		{
 			if (m_parts[i]->IsHit(center, radius)) {				
 				if (m_parts[i]->TakeDamageFromAttack(damage, attackId))// 同じ攻撃ですでに当たった部位ならfalse
@@ -153,7 +162,7 @@ int Tentacle::TakeDamageByCircle(const Vector2D& center, float radius, int damag
 void Tentacle::TakeDamage(int index, int damage)
 {
 	// 範囲外の番号は無視する
-	if (index < 0 || index >= SEGMENT_COUNT) return;
+	if (index < 0 || index >= m_segmentCount) return;
 
 	m_parts[index]->TakeDamage(damage);
 }
@@ -177,7 +186,7 @@ void Tentacle::OnPartBroken(int index)
 	const int next = index + 1;
 
 	// もし先端が壊れたのであれば、崩れる部位がない
-	if (next >= SEGMENT_COUNT) return;
+	if (next >= m_segmentCount) return;
 
 	// 崩壊していないか、より根元に近い部位が壊れたなら、そこから崩壊をやり直す
 	if (m_collapseIndex == -1 || next < m_collapseIndex)
@@ -198,28 +207,30 @@ void Tentacle::OnPartBroken(int index)
 /// <param name="radius">円の半径</param>
 /// <param name="pushOut">円を押し出すベクトル</param>
 /// <returns>いずれかの部位と重なっているか</returns>
-bool Tentacle::IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut) const
+bool Tentacle::IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut, bool& dealsDamage) const
 {
+	if (!m_isActive) { dealsDamage = false; return false; }
+	dealsDamage = false;
 	pushOut.x = 0.0f;
 	pushOut.y = 0.0f;
-
 	// そもそも、触手全体を囲む 大きな円と重なっていなければ早期リターン
 	const float dx = center.x - m_root.x;
 	const float dy = center.y - m_root.y;
-	const float reach = REACH + radius;
+	const float reach = CalcReach() + radius;
 	if ((dx * dx) + (dy * dy) > (reach * reach)) return false;
 
 #pragma region 各部位を調べて最も深くめり込んでいる押し出しを 採用する
 	bool isHit = false;
-	float maxDepthSq = 0.0f;
 
-	for (int i = 0; i < SEGMENT_COUNT; i++)
+	for (int i = 0; i < m_segmentCount; i++)
 	{
 		Vector2D push;
 		//　当たっていなければ、スキップ
 		if (!m_parts[i]->CalcPushOut(center, radius, push)) continue;
 
 		isHit = true;
+		dealsDamage = m_isAttacking;
+
 		// 同じ向きの押し出しが重なっても2倍にならないよう、絶対値が大きい方を採用する
 		if (std::abs(push.x) > std::abs(pushOut.x)) {
 			pushOut.x = push.x;
@@ -268,6 +279,70 @@ void Tentacle::Restore()
 
 
 
+
+/// <summary>
+/// 根元の初期位置を設定
+/// </summary>
+void Tentacle::SetHomeRoot(const Vector2D& homeRoot)
+{
+	m_homeRoot = homeRoot;
+	m_root = homeRoot;
+}
+
+
+
+
+
+/// <summary>
+/// 向きを設定
+/// </summary>
+void Tentacle::SetRootAngle(float angle)
+{
+	m_rootAngle = angle;
+}
+
+
+
+
+
+/// <summary>
+/// 伸び具合を設定（0.0f〜1.0f ）
+/// </summary>
+/// <param name="scale">伸び具合</param>
+void Tentacle::SetLengthScale(float scale)
+{
+	m_lengthScale = std::clamp(scale, 0.0f, 1.0f);
+}
+
+
+
+
+
+/// <summary>
+/// アクティブにする
+/// </summary>
+/// <param name="isActive"></param>
+void Tentacle::SetActive(bool isActive)
+{
+	m_isActive = isActive;
+
+	if (m_isActive)
+	{
+		Restore();
+	}
+
+	if (!m_isActive)
+	{
+		m_isAttacking = false;
+		m_collapseIndex = -1;
+		m_collapseTimer = 0.0f;
+	}
+}
+
+
+
+
+
 /// <summary>
 /// 崩壊を進める
 /// </summary>
@@ -288,7 +363,7 @@ void Tentacle::UpdateCollapse(float elapsedTime)
 	m_collapseTimer = COLLAPSE_INTERVAL;
 
 	// 先端まで壊し終えたら、崩壊を終わる
-	if (m_collapseIndex >= SEGMENT_COUNT)
+	if (m_collapseIndex >= m_segmentCount)
 	{
 		m_collapseIndex = -1;
 	}

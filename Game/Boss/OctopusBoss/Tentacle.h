@@ -7,7 +7,7 @@
 #pragma once
 #include "Library/GameMath.h"
 #include <vector>
-#include <cmath>
+#include <memory>
 #include "Game/Boss/IBossPartObserver.h"
 #include "Game/Boss/BossPart.h"
 class ITentacleObserver;
@@ -15,9 +15,6 @@ class ITentacleObserver;
 class Tentacle : public IBossPartObserver
 {
 private:
-	// 部位の数
-	static constexpr int SEGMENT_COUNT   = 12;
-
 	// 部位（関部位）と部位の間の長さ
 	static constexpr float SEGMENT_LENGTH = 30.0f;
 
@@ -42,18 +39,28 @@ private:
 	// 崩壊が次の部位へ進むまでの時間（秒）
 	static constexpr float COLLAPSE_INTERVAL = 0.15f;
 
-	// 触手全体が届く最大の距離（これより遠いプレイヤーは、部位を調べなくてよい）
-	static constexpr float REACH = SEGMENT_COUNT * SEGMENT_LENGTH + BASE_RADIUS;
 
-
-	// 付け根の座標
-	Vector2D m_root;
 
 	// 本来の付け根の座標
-	Vector2D m_homeRoot;
+	Vector2D m_homeRoot{};
+
+	// 付け根の座標
+	Vector2D m_root{};
+
+	// 付け根の向き（ラジアン）
+	float m_rootAngle{};
+
+	// 伸び具合
+	float m_lengthScale{ 1.0f };
+
+	// false なら描画・判定を飛ばす
+	bool m_isActive{ true };
+
+	//部位の数
+	int m_segmentCount{};
 
 	// 部位（位置・半径・HP・状態を持つ）
-	std::vector<std::unique_ptr<BossPart>> m_parts;
+	std::vector<std::unique_ptr<BossPart>> m_parts{};
 	
 	// 経過時間
 	float m_time{};
@@ -72,7 +79,7 @@ private:
 
 public:
 	// コンストラクタ / デストラクタ
-	Tentacle(const Vector2D& root);
+	Tentacle(const Vector2D& root, int segmentCount);
 	~Tentacle();
 	
 	// 部位が Tentacle の this を覚えるので、コピーおよびムーブを禁止する
@@ -108,9 +115,9 @@ public:
 	/// <param name="center">円の中心座標</param>
 	/// <param name="radius">円の半径</param>
 	/// <param name="pushOut">円を押し出すベクトル</param>
+	/// <param name="dealsDamage">触手がダメージを与える状態かどうか</param>
 	/// <returns>いずれかの部位と重なっているか</returns>
-	bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut) const;
-	
+	bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut, bool& dealsDamage) const;
 
 	/// <summary>
 	/// 通知先（ボス）を登録する
@@ -139,10 +146,46 @@ public:
 	void SetAttacking(bool isAttacking) { m_isAttacking = isAttacking; }
 
 
+	/// <summary>
+	/// 根元の初期位置を設定
+	/// </summary>
+	void SetHomeRoot(const Vector2D& homeRoot);
+
+
+	/// <summary>
+	/// 向きを設定
+	/// </summary>
+	void SetRootAngle(float angle);
+
+
+	/// <summary>
+	/// 伸び具合を設定（0.0f〜1.0f ）
+	/// </summary>
+	void SetLengthScale(float scale);
+
+
+	/// <summary>
+	/// アクティブにする
+	/// </summary>
+	void SetActive(bool isActive);
+
+
+	/// <summary>
+	/// アクティブかどうか
+	/// </summary>
+	bool IsActive() const { return m_isActive; }
+
 private:
 	// 崩壊（壊れた部位より 先端側を、1部位ずつ壊していく）を、進める
 	void UpdateCollapse(float elapsedTime);
 	
 
-private:
+	// 到達できるリーチ
+	float CalcReach() const 
+	{
+		return m_segmentCount 
+			* SEGMENT_LENGTH 
+			* m_lengthScale + BASE_RADIUS;
+	}
+
 };

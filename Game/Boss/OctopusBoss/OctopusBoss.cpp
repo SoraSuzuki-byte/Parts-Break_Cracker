@@ -20,7 +20,7 @@ OctopusBoss::OctopusBoss()
 {
 	// 触手を1本生成して登録
 	//auto tentacle = std::make_unique<Tentacle>(/* 付け根の座標など */);
-	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 250.0f));
+	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 250.0f), 12);
 
 	// 触手に「壊れたら自分(this)に連絡してね」と登録する
 	tentacle->SetObserver(this);
@@ -90,7 +90,7 @@ void OctopusBoss::Render() const
 /// <param name="radius">円の半径</param>
 /// <param name="pushOut">一番大きくめり込んだ部位からの押し出しベクトル（出力）</param>
 /// <returns>いずれかの触手と当たっていれば true</returns>
-bool OctopusBoss::IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut) const
+bool OctopusBoss::IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut, bool& dealsDamage) const
 {
 	bool isHit = false;
 	Vector2D maxPushOut{ 0.0f, 0.0f };
@@ -99,7 +99,7 @@ bool OctopusBoss::IsCollidingWithCircle(const Vector2D& center, float radius, Ve
 	for (const auto& tentacle : m_tentacles)
 	{
 		Vector2D tempPushOut{ 0.0f, 0.0f };
-		if (tentacle->IsCollidingWithCircle(center, radius, tempPushOut))
+		if (tentacle->IsCollidingWithCircle(center, radius, tempPushOut, dealsDamage))
 		{
 			isHit = true;
 			// 一番大きくめり込んだ押し出し量を採用する

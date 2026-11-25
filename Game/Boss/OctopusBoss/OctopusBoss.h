@@ -28,8 +28,8 @@ private:
 	static constexpr float OFFSCREEN_DISTANCE = 700.0f; // 触手全体を画面の右端に完全に隠すために必要な横移動の量
 
 	/// <summary>
-		/// ボスの行動段階（1サイクルの流れ）
-		/// </summary>
+	/// ボスの行動段階（1サイクルの流れ）
+	/// </summary>
 	enum class Stage
 	{
 		Enter,      // 登場（画面外から定位置へ移動）
@@ -65,7 +65,7 @@ public:
 	// Boss からのオーバーライド
 	void Update(float elapsedTime) override;
 	void Render() const override;
-	bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut) const override;
+	bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut, bool& dealsDamage) const override;
 	bool IsAttacking() const override;
 	int TakeDamageByCircle(const Vector2D& center, float radius, int damage, int attackId) override;
 

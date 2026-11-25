@@ -25,7 +25,7 @@ public:
 	virtual void Render() const = 0;
 
 	// プレイヤー等の体との判定
-	virtual bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut) const = 0;
+	virtual bool IsCollidingWithCircle(const Vector2D& center, float radius, Vector2D& pushOut, bool& dealsDamage) const = 0;
 
 	// いま、触れたらダメージを与える状態か
 	virtual bool IsAttacking() const = 0;
