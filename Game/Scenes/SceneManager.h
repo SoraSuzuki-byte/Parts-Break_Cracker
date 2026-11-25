@@ -50,7 +50,7 @@ public:
     void Initialize();
 
     // 更新
-    void Update();
+    void Update(float elapsedTime, int keyCondition, int keyTrigger);
 
     // 描画
     void Render();

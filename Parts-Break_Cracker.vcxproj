@@ -140,8 +140,22 @@
   <!-- ファイル -->
   <ItemGroup>
     <!-- プリコンパイル済みヘッダー -->
+    <ClCompile Include="Game\Boss\Boss.cpp" />
+    <ClCompile Include="Game\Boss\BossPart.cpp" />
+    <ClCompile Include="Game\Boss\OctopusBoss\OctopusBoss.cpp" />
+    <ClCompile Include="Game\Boss\OctopusBoss\Tentacle.cpp" />
+    <ClCompile Include="Game\Boss\States\PartBrokenState.cpp" />
+    <ClCompile Include="Game\Boss\States\PartDamagedState.cpp" />
+    <ClCompile Include="Game\Boss\States\PartNormalState.cpp" />
     <ClCompile Include="Game\Common\InputManager.cpp" />
     <ClCompile Include="Game\Common\ResourceManager.cpp" />
+    <ClCompile Include="Game\Player\Player.cpp" />
+    <ClCompile Include="Game\Player\States\AirState.cpp" />
+    <ClCompile Include="Game\Player\States\AttackState.cpp" />
+    <ClCompile Include="Game\Player\States\FallState.cpp" />
+    <ClCompile Include="Game\Player\States\IdleState.cpp" />
+    <ClCompile Include="Game\Player\States\JumpState.cpp" />
+    <ClCompile Include="Game\Player\States\RunState.cpp" />
     <ClCompile Include="Game\Scenes\PlayScene.cpp" />
     <ClCompile Include="Game\Scenes\ResultScene.cpp" />
     <ClCompile Include="Game\Scenes\SceneManager.cpp" />
@@ -151,11 +165,31 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="Game\Boss\Boss.h" />
+    <ClInclude Include="Game\Boss\BossConstants.h" />
+    <ClInclude Include="Game\Boss\BossPart.h" />
+    <ClInclude Include="Game\Boss\IBossPartObserver.h" />
+    <ClInclude Include="Game\Boss\OctopusBoss\ITentacleObserver.h" />
+    <ClInclude Include="Game\Boss\OctopusBoss\OctopusBoss.h" />
+    <ClInclude Include="Game\Boss\OctopusBoss\Tentacle.h" />
+    <ClInclude Include="Game\Boss\States\BossPartState.h" />
+    <ClInclude Include="Game\Boss\States\PartBrokenState.h" />
+    <ClInclude Include="Game\Boss\States\PartDamagedState.h" />
+    <ClInclude Include="Game\Boss\States\PartNormalState.h" />
     <ClInclude Include="Game\Common\GameContext.h" />
     <ClInclude Include="Game\Common\InputManager.h" />
     <ClInclude Include="Game\Common\ResourceIdentifiers.h" />
     <ClInclude Include="Game\Common\ResourceManager.h" />
     <ClInclude Include="Game\Common\ResourceTable.h" />
+    <ClInclude Include="Game\Player\Player.h" />
+    <ClInclude Include="Game\Player\PlayerConstants.h" />
+    <ClInclude Include="Game\Player\States\AirState.h" />
+    <ClInclude Include="Game\Player\States\AttackState.h" />
+    <ClInclude Include="Game\Player\States\FallState.h" />
+    <ClInclude Include="Game\Player\States\IdleState.h" />
+    <ClInclude Include="Game\Player\States\JumpState.h" />
+    <ClInclude Include="Game\Player\States\PlayerState.h" />
+    <ClInclude Include="Game\Player\States\RunState.h" />
     <ClInclude Include="Game\Scenes\IScene.h" />
     <ClInclude Include="Game\Scenes\PlayScene.h" />
     <ClInclude Include="Game\Scenes\ResultScene.h" />

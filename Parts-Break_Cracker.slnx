@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Parts-Break_Cracker.vcxproj" />
+  <Project Path="Parts-Break_Cracker.vcxproj" Id="b0e846bc-a219-4c68-85d6-fbe61472811c" />
 </Solution>

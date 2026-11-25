@@ -27,7 +27,7 @@ public:
 
     // 初期化、更新、描画、後始末、デバッグ表示
     virtual void Initialize() override;
-    virtual void Update(SceneManager& sceneManager) override;
+    virtual void Update(SceneManager& sceneManager, float elapsedTime, int keyCondition, int keyTrigger) override;
     virtual void Render()override;
     virtual void Finalize() override;
     virtual void DebugDraw() override;

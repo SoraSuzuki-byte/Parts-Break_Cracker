@@ -1,0 +1,205 @@
+﻿/**
+ * @file   Player.h
+ *
+ * @brief  プレイヤーに関するヘッダファイル
+ *
+ * @author 鈴木蒼良
+ *
+ * @date   2026年10月12日
+ */
+
+// 多重インクルードの防止 =====================================================
+#pragma once
+
+
+// ヘッダファイルの読み込み ===================================================
+#include "Library/GameMath.h"
+
+#include "Game/Player/States/PlayerState.h"
+#include "Game/Player/States/IdleState.h"
+#include "Game/Player/States/RunState.h"
+#include "Game/Player/States/JumpState.h"
+#include "Game/Player/States/AttackState.h"
+#include "Game/Player/States/FallState.h"
+
+
+// クラスの定義 ===============================================================
+/**
+ * @brief プレイヤー（DrawBoxで表現）
+ */
+class Player
+{
+// データメンバの宣言 -----------------------------------------------
+private:
+	int   m_hp{};               // コンストラクタで MAX_HP を入れる
+	float m_invincibleTimer{};  // 無敵の残り時間
+
+	// 位置・速度
+	float m_x{};            ///< X座標（中心）
+	float m_y{};            ///< Y座標（足元）
+	float m_velocityX{};    ///< X方向の速度
+	float m_velocityY{};    ///< Y方向の速度
+	bool  m_facingRight{true}; ///< 右向きか
+
+	// 触手などの足場に乗っているか
+	bool m_isOnPlatform{};
+
+	// 攻撃用クールダウン
+	float m_attackCooldown{};
+
+	// この攻撃が 既に当たったか
+	bool m_attackHit{};
+
+	// 攻撃ID（攻撃が新しく部位に当たるたびに 1ずつ増える識別番号）
+	int m_attackedId{};
+
+	// キー入力
+	int m_keyCondition{};   ///< 現在のキー情報（押している間）
+	int m_keyTrigger  {};   ///< 押された瞬間のキー情報
+
+	// 状態
+	IdleState   m_idle;	    ///< 待機状態の実態
+	RunState    m_run;	    ///< 走り状態の実態
+	JumpState   m_jump;	    ///< ジャンプ状態の実態
+	AttackState m_attack;   ///< 攻撃状態の実態
+	FallState   m_fall;     ///< 落下状態の実体
+	PlayerState* m_state{nullptr}; ///< 現在の状態
+
+
+
+// メンバ関数の宣言 -------------------------------------------------
+public:
+// コンストラクタ / デストラクタ
+	Player();
+	~Player();
+// 操作
+public:
+	// 初期化・更新・描画
+	void Initialize();
+	void Update(float elapsedTime, int keyCondition, int keyTrigger);
+	void Render() const;
+
+	// 状態の変更
+	void ChangeState(PlayerState* nextState);
+
+
+	/// <summary>
+	/// X方向に移動する（画面外に出ないようにも制限する）
+	/// </summary>
+	/// <param name="dx">移動量</param>
+	void MoveX(float dx);
+
+
+	/// <summary>
+	/// 画面外に出ないように位置を制限する
+	/// </summary>
+	void ClampToScreen();
+
+
+	/// <summary>
+	/// ダメージを受ける
+	/// </summary>
+	/// <param name="damage">受けるダメージの量</param>
+	void TakeDamage(int damage);
+
+
+	/// <summary>
+	/// 位置の押し戻し（障害物や 敵との重なりを解消するため）
+	/// </summary>
+	/// <param name="pushOut">押し戻すベクトル</param>
+	void ApplyPushOut(const Vector2D& pushOut);
+
+
+// 入力
+public:
+	// ボタンが押されているか
+	bool IsHeld(int button) const;
+
+	// ボタンが押された瞬間か
+	bool IsPressed(int button) const;
+
+	// 左右入力（左:-1, なし:0, 右:1）
+	int GetMoveDirection() const;
+
+
+#pragma region 取得/設定
+// 取得/設定
+public:
+	// 攻撃できるかを返す
+	bool CanAttack() const;
+
+	// 攻撃中か
+	bool IsAttacking() const;
+
+	// 今、攻撃の判定を出してよいか
+	bool CanDealAttackDamage() const;
+
+	// 攻撃の円の中心
+	Vector2D GetAttackCenter() const;
+
+	/// <summary>
+	/// 攻撃の円の半径を取得
+	/// </summary>
+	/// <returns>攻撃の円の半径</returns>
+	float GetAttackRadius() const;
+
+	// 攻撃のクールダウンタイムのセット
+	void StartAttackCooldown();
+
+	/// <summary>
+	/// 攻撃を開始し、新しい攻撃IDを発行する
+	/// </summary>
+	void BeginAttack();
+
+	/// <summary>
+	/// 今の攻撃の番号
+	/// </summary>
+	/// <returns>今の攻撃の番号</returns>
+	int GetAttackId() const;
+
+
+	// 体の中心の取得（当たり判定に使う）
+	Vector2D GetBodyCenter() const;
+
+	// 体の半径を取得（当たり判定に使う）
+	float    GetBodyRadius() const;
+
+	// Stateの取得
+	PlayerState* GetIdleState()   { return &m_idle; }
+	PlayerState* GetRunState()    { return &m_run; }
+	PlayerState* GetJumpState()   { return &m_jump; }
+	PlayerState* GetAttackState() { return &m_attack; }
+	PlayerState* GetFallState()   { return &m_fall; }
+
+
+	// 位置の取得とセット
+	void UpdatePosition(float elapsedTime);
+	float GetX() const { return m_x; }
+	float GetY() const { return m_y; }
+
+
+	// 速度の取得とセット
+	float GetVelocityX() const { return m_velocityX; }
+	float GetVelocityY() const { return m_velocityY; }
+	void  SetVelocityX(float velocityX) { m_velocityX = velocityX; }
+	void  SetVelocityY(float velocityY) { m_velocityY = velocityY; }
+
+
+	// 向いている向きの取得とセット
+	bool IsFacingRight() const { return m_facingRight; }
+	void SetFacingRight(bool facingRight) { m_facingRight = facingRight; }
+
+	// 着地しているかどうか
+	bool IsGrounded() const;
+
+	// 下向きに移動しているか（落下中か）
+	bool IsFalling() const { return m_velocityY >= 0.0f; }
+#pragma endregion
+
+// 内部処理
+private:
+	// 重力の処理
+	void ApplyGravity(float elapsedTime);
+
+
+};

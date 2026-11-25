@@ -55,13 +55,8 @@ void Game::Initialize()
 /// </summary>
 void Game::Update(float elapsedTime)
 {
-    // 入力マネジャーを更新する
-    m_inputManager.Update();
-
-    // シーンマネジャーを更新する
-    m_sceneManager->Update();
-
-
+    // いまのフレームのキー情報の取得
+    const auto& keyCondition = m_inputManager.GetKeyCondition();
     // キートリガーの取得
     const auto& keyTrigger = m_inputManager.GetKeyTrigger();
 
@@ -72,6 +67,11 @@ void Game::Update(float elapsedTime)
         m_isDebugDraw = (!m_isDebugDraw);
     }
 
+    // 入力マネジャーを更新する
+    m_inputManager.Update();
+
+    // シーンマネジャーを更新する
+    m_sceneManager->Update(elapsedTime, keyCondition, keyTrigger);
 }
 
 /// <summary>

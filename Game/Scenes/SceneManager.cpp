@@ -33,12 +33,12 @@ void SceneManager::Initialize()
 /// <summary>
 /// 更新
 /// </summary>
-void SceneManager::Update()
+void SceneManager::Update(float elapsedTime, int keyCondition, int keyTrigger)
 {
     // 現在のシーンを更新
     if (m_currentScene)
     {
-        m_currentScene->Update(*this);
+        m_currentScene->Update(*this, elapsedTime, keyCondition, keyTrigger);
     }
 
     // シーン切り替えのリクエストが発生していたら
@@ -131,13 +131,12 @@ void SceneManager::CreateScene(SceneID sceneID)
         default:
         {
             assert(!"SceneManager::CreateScene::指定されたSceneIDが存在しません");
-            // no break
+            break;
         }
-
+    }
         // 現在シーンを初期化する
         assert(m_currentScene && "Scenemanager::CreateScene::シーン生成に失敗しました");
         m_currentScene->Initialize();
-    }
 }
 
 /// <summary>

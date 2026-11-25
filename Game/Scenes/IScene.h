@@ -20,7 +20,7 @@ public:
     virtual ~IScene() = default;
 
     virtual void Initialize() = 0;
-    virtual void Update(SceneManager& sceneManager) = 0;
+    virtual void Update(SceneManager& sceneManager, float elapsedTime, int keyCondition, int keyTrigger) = 0;
     virtual void Render() = 0;
     virtual void Finalize() = 0;
     virtual void DebugDraw() = 0;

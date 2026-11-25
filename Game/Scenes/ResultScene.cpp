@@ -32,10 +32,10 @@ void ResultScene::Initialize()
 /// 更新
 /// </summary>
 /// <param name="sceneManager">シーンマネージャー</param>
-void ResultScene::Update(SceneManager& sceneManager)
+void ResultScene::Update(SceneManager& sceneManager, float elapsedTime, int keyCondition, int keyTrigger)
 {
-    // キー入力を取得する
-    const auto keyTrigger = m_gameContext.m_inputManager.GetKeyTrigger();
+    // 未使用変数の警告を防止
+    UNREFERENCED_PARAMETER(elapsedTime);
 
     // スペースキーが押されたら
     if (keyTrigger & PAD_INPUT_10)
