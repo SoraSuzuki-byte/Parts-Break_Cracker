@@ -22,13 +22,16 @@ OctopusBoss::OctopusBoss()
 {
 	// 触手を1本生成して登録
 	//auto tentacle = std::make_unique<Tentacle>(/* 付け根の座標など */);
-	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 250.0f), 12);
+	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 650.0f), 12);
 
 	// 触手に「壊れたら自分(this)に連絡してね」と登録する
 	tentacle->SetObserver(this);
 
 	// 最初は登場（Enter）のスタート位置（画面外）に置いておく
 	tentacle->SetRootOffset(Vector2D{ OFFSCREEN_DISTANCE, 0.0f });
+
+	// 付け根の向きを設定
+	tentacle->SetRootAngle(DX_PI_F);
 
 	// すべての設定が終わった最後の1行で std::move を呼ぶのが鉄則
 	m_tentacles.push_back(std::move(tentacle));
@@ -228,7 +231,7 @@ void OctopusBoss::UpdateStage(float elapsedTime)
 					m_stage = Stage::Attack;
 					if (m_pattern != nullptr) // 空じゃなかったら
 					{
-						m_pattern->Start(m_tentacles);
+						m_pattern->Start(m_tentacles, GetTargetPosition());
 					}
 					break;
 				}

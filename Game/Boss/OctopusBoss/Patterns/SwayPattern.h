@@ -25,7 +25,9 @@ public:
 	/// パターン開始時の初期化
 	/// </summary>
 	/// <param name="tentacles">操作対象の触手たち</param>
-	void Start(std::vector<std::unique_ptr<Tentacle>>& tentacles) override;
+	void Start(
+		std::vector<std::unique_ptr<Tentacle>>& tentacles,
+		const Vector2D& playerPos) override;
 
 
 	/// <summary>

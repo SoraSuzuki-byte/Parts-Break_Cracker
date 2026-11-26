@@ -12,7 +12,7 @@
 namespace PlayerConstants
 {
 	// 見た目
-	constexpr float GROUND_Y = 400.0f;            ///< 地面のY座標（足元の位置）
+	constexpr float GROUND_Y = 700.0f;            ///< 地面のY座標（足元の位置）
 	constexpr float WIDTH    = 40.0f;             ///< 幅
 	constexpr float HALF_WIDTH = WIDTH * 0.5f;    ///< 幅の半分（中心から端まで）
 	constexpr float HEIGHT   = 60.0f;             ///< 高さ

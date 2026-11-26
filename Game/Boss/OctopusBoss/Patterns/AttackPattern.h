@@ -14,13 +14,15 @@ class AttackPattern
 {
 public:
 	// コンストラクタ
-	AttackPattern() = default;;
+	AttackPattern() = default;
 
 	// デストラクタ
 	virtual ~AttackPattern() = default;
 	
 	// パターン開始時の初期化
-	virtual void Start(std::vector<std::unique_ptr<Tentacle>>& tentacles) = 0;
+	virtual void Start(
+		std::vector<std::unique_ptr<Tentacle>>& tentacles,
+		const Vector2D& playerPos) = 0;
 
 	// パターン終了時の設定
 	virtual void End(std::vector<std::unique_ptr<Tentacle>>& tentacles) = 0;
@@ -33,8 +35,11 @@ public:
 	) = 0;
 
 	// 描画（パターン独自の）
-	virtual void Render() const {};
+	virtual void Render() const {}
 
 	// 終了しているかどうか
 	virtual bool IsFinished() const = 0;
+
+	// この攻撃パターンで必要な触手の本数を取得する（プール確保用）
+	virtual int GetRequiredTentacleCount() const { return 0; }
 };

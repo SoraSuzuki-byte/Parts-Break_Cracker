@@ -48,7 +48,7 @@ private:
 	Vector2D m_root{};
 
 	// 付け根の向き（ラジアン）
-	float m_rootAngle{};
+	float m_rootAngle{}; // 値を0ではなく、DX_PI_Fにすると左向き
 
 	// 伸び具合
 	float m_lengthScale{ 1.0f };

@@ -12,7 +12,9 @@
 /// パターン開始時の初期化
 /// </summary>
 /// <param name="tentacles">操作対象の触手たち</param>
-void SwayPattern::Start(std::vector<std::unique_ptr<Tentacle>>& tentacles)
+void SwayPattern::Start(
+	std::vector<std::unique_ptr<Tentacle>>& tentacles,
+	const Vector2D& playerPos)
 {
 	m_timer = ATTACK_TIME;
 
