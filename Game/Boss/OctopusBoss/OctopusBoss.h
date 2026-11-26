@@ -19,10 +19,18 @@ class AttackPattern;
 class OctopusBoss : public Boss, public ITentacleObserver
 {
 private:
+	// 地面の高さ
+	static constexpr float GROUND_Y = 700.0f;
 	// 各段階の時間（秒）
 	static constexpr float ENTER_TIME = 1.0f;		// 登場
 	static constexpr float CHANCE_TIME = 3.5f;		// チャンス
 	static constexpr float RETREAT_TIME = 1.0f;		// 退場
+
+	// 最初に作った触手の部位数
+	static constexpr float SEGMENT_COUNT = 12;
+
+	// 地面から生える触手の部位数
+	static constexpr float ERUPT_SEGMENT_COUNT = 6;
 
 	// 画面外までの移動距離（ピクセル）
 	static constexpr float OFFSCREEN_DISTANCE = 700.0f; // 触手全体を画面の右端に完全に隠すために必要な横移動の量
@@ -48,11 +56,15 @@ private:
 	// 1部位壊れるごとに減るHP量
 	static constexpr int DAMAGE_PER_SEGMENT = 5;
 
-	// 持っている触手のリスト
+	// ゆれている触手のリスト
 	std::vector<std::unique_ptr<Tentacle>> m_tentacles;
+
+	// 地面から生える触手のリスト
+	std::vector<std::unique_ptr<Tentacle>> m_eruptTentacles;
 
 	// 攻撃パターンを保持するインスタンス
 	std::unique_ptr<AttackPattern> m_pattern;
+
 
 public:
 #pragma region コンストラクタ・デストラクタ・コピーとムーブの禁止

@@ -22,7 +22,7 @@ OctopusBoss::OctopusBoss()
 {
 	// 触手を1本生成して登録
 	//auto tentacle = std::make_unique<Tentacle>(/* 付け根の座標など */);
-	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 650.0f), 12);
+	auto tentacle = std::make_unique<Tentacle>(Vector2D(600.0f, 650.0f), SEGMENT_COUNT);
 
 	// 触手に「壊れたら自分(this)に連絡してね」と登録する
 	tentacle->SetObserver(this);
@@ -35,6 +35,23 @@ OctopusBoss::OctopusBoss()
 
 	// すべての設定が終わった最後の1行で std::move を呼ぶのが鉄則
 	m_tentacles.push_back(std::move(tentacle));
+
+
+
+
+
+	// ステップ2確認用：地面の固定位置に真上向きの触手を1本入れる
+	const float testRootX = 640.0f; // 確認用のX座標（画面の中ほどなど適当な値）
+	const Vector2D eruptRoot{ testRootX, GROUND_Y };
+
+	auto eruptTentacle = std::make_unique<Tentacle>(eruptRoot, ERUPT_SEGMENT_COUNT);
+	eruptTentacle->SetObserver(this);
+
+	// DXライブラリはY下向きなので、真上は -π/2（GameMath.h の π 定数があればそれを使用）
+	constexpr float PI_F = 3.14159265f;
+	eruptTentacle->SetRootAngle(-PI_F * 0.5f);
+
+	m_eruptTentacles.push_back(std::move(eruptTentacle));
 }
 
 
@@ -61,6 +78,12 @@ void OctopusBoss::Update(float elapsedTime)
 	{
 		tentacle->Update(elapsedTime);
 	}
+
+	// 地面から生える触手
+	for (auto& tentacle : m_eruptTentacles)
+	{
+		tentacle->Update(elapsedTime);
+	}
 }
 
 
@@ -74,6 +97,12 @@ void OctopusBoss::Update(float elapsedTime)
 void OctopusBoss::Render() const
 {
 	for (const auto& tentacle : m_tentacles)
+	{
+		tentacle->Render();
+	}
+
+	// 地面から生える触手
+	for (const auto& tentacle : m_eruptTentacles)
 	{
 		tentacle->Render();
 	}
